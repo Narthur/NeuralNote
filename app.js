@@ -4,34 +4,46 @@
 
 var App = Class.create();
 App.prototype = {
-    initialize: function(db) {
+    initialize: function(db,view) {
         this.db = db;
+        this.view = view;
     },
-    loadFrame: function() {
-        this.db.notes();
+    loadFrame: function(notes) {
+        var noteHtml = '';
+        $.each(notes, function(i, item) {
+            noteHtml += '<li class="note" id="'+item['noteId']+'">'+item['content']+'</li>';
+        });
+        var ul = '<ul class="notes">'+noteHtml+'</ul>';
+        var pane = '<div class="pane">'+ul+'</div>';
+        var frame = '<div class="frame">'+pane+'</div>';
+        this.view.append(frame,'body');
+    },
+    loadApp: function() {
+        this.db.notes(this.loadFrame);
     }
 };
 
 var View = Class.create();
 View.prototype = {
-    initialize: function() {}
+    initialize: function() {},
+    append: function(html, target) {
+        $(target).append(html);
+    }
 };
 
 var Db = Class.create();
 Db.prototype = {
-    initialize: function() {
-
-    },
-    notes: function() {
+    initialize: function() {},
+    notes: function(callback) {
         var data = {'action': 'load'};
         $.ajax({
             url: 'backend.php',
             type: 'post',
             data: data,
             dataType: 'json',
-            async: false,
             success: function (json) {
-                return json;
+                console.log(json);
+                callback(json);
             },
             error: function (xhr, desc, err) {
                 console.log(xhr);
@@ -40,6 +52,11 @@ Db.prototype = {
         });
     }
 };
+
+var db = new Db();
+var view = new View();
+var app = new App(db,view);
+app.loadApp();
 
 /*
 function sendDataToBackend(data) {
