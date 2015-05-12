@@ -11,7 +11,7 @@ Db.prototype = {
 
     },
     notes: function() {
-        
+
     }
 };
 
