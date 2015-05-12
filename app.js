@@ -8,14 +8,27 @@ App.prototype = {
         this.db = db;
         this.view = view;
     },
-    loadFrame: function(notes) {
+    note: function (item) {
+        return '<li class="note" id="' + item['noteId'] + '">' + item['content'] + '</li>';
+    },
+    notes: function (notes) {
         var noteHtml = '';
-        $.each(notes, function(i, item) {
-            noteHtml += '<li class="note" id="'+item['noteId']+'">'+item['content']+'</li>';
+        var that = this;
+        $.each(notes, function (i, item) {
+            noteHtml += that.note(item);
         });
-        var ul = '<ul class="getNotes">'+noteHtml+'</ul>';
-        var pane = '<div class="pane">'+ul+'</div>';
-        var frame = '<div class="frame">'+pane+'</div>';
+        return '<ul class="getNotes">' + noteHtml + '</ul>';
+    },
+    pane: function (notes) {
+        var ul = this.notes(notes);
+        return '<div class="pane">' + ul + '</div>';
+    },
+    frame: function (notes) {
+        var pane = this.pane(notes);
+        return '<div class="frame">' + pane + '</div>';
+    },
+    loadFrame: function(notes) {
+        var frame = this.frame(notes);
         this.view.append(frame,'body');
     },
     loadApp: function() {
