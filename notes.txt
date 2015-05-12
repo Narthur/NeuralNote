@@ -1,0 +1,37 @@
+AJAX:
+GOOD:
+http://blog.teamtreehouse.com/beginners-guide-to-ajax-development-with-php
+NOT CHECKED:
+http://www.sitepoint.com/ajax-jquery/
+http://www.ajaxtutorials.com/php/using-php-ajax/
+http://webdevelopingcat.com/jquery-php-beginner-tutorial-ajax/
+
+PHP connecting to MySQL:
+http://php.net/manual/en/book.mysql.php
+http://henryranch.net/software/ease-into-sqlite-3-with-php-and-pdo/
+
+Guy in StackOverflow PHP chat recommended that I simply keep complete copies of the notes for versioning--KISS. I could
+run a PHP diff implementation if I wanted to do fancy stuff later.
+
+
+
+@NathanArthur What problem are you having exactly? Just splitting the text out into a separate table makes having different versions be 'trivial' like:
+
+Note table
+-noteId
+
+NoteText table
+-noteTextId
+-text
+-noteId
+
+And then get the latest version of a note with:
+
+select a.NoteId, b.text
+   from Note a left join NoteText b
+on
+    a.noteId = b.noteId
+order by
+    b.noteTextId desc
+limit 1
+

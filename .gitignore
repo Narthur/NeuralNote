@@ -1,0 +1,5 @@
+.idea/**/*
+*.sq3
+karma.conf.js
+node/**/*
+node_modules/**/*
