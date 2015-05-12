@@ -1,6 +1,14 @@
 /**
  * Created by nathan on 5/10/15.
  */
+
+function App() {
+}
+
+function Db() {
+
+}
+
 /*
 function sendDataToBackend(data) {
     $.ajax({
