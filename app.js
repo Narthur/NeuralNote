@@ -2,8 +2,15 @@
  * Created by nathan on 5/10/15.
  */
 
-function App() {
-}
+var App = Class.create();
+App.prototype = {
+    initialize: function(db) {
+        this.db = db;
+    },
+    loadFrame: function() {
+        this.db.notes();
+    }
+};
 
 var Db = Class.create();
 Db.prototype = {
@@ -11,7 +18,21 @@ Db.prototype = {
 
     },
     notes: function() {
-
+        var data = {'action': 'load'};
+        $.ajax({
+            url: 'backend.php',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            async: false,
+            success: function (json) {
+                return json;
+            },
+            error: function (xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError: " + err);
+            }
+        });
     }
 };
 
