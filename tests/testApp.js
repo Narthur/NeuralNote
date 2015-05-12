@@ -7,7 +7,7 @@ describe('test App', function() {
 
     beforeEach(function() {
         db = new Db();
-        spyOn(db, 'notes');
+        spyOn(db, 'getNotes');
         view = new View();
         spyOn(view, 'append');
         app = new App(db,view);
@@ -23,17 +23,17 @@ describe('test App', function() {
         expect(view.append).toHaveBeenCalled();
     });
 
-    it('appends notes when loading frame', function() {
+    it('appends getNotes when loading frame', function() {
         app.loadFrame([{
             'content':'note',
             'noteId':'1'
         }]);
-        var html = '<div class="frame"><div class="pane"><ul class="notes"><li class="note" id="1">note</li></ul></div></div>';
+        var html = '<div class="frame"><div class="pane"><ul class="getNotes"><li class="note" id="1">note</li></ul></div></div>';
         expect(view.append).toHaveBeenCalledWith(html,'body');
     });
 
-    it('gets notes when loading app', function() {
+    it('gets getNotes when loading app', function() {
         app.loadApp();
-        expect(db.notes).toHaveBeenCalledWith(app.loadFrame);
+        expect(db.getNotes).toHaveBeenCalledWith(app.loadFrame);
     });
 });

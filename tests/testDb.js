@@ -7,8 +7,8 @@ describe('test Db', function() {
         expect(Db).toEqual(jasmine.anything());
     });
 
-    it('has notes method', function () {
+    it('has getNotes method', function () {
         var db = new Db();
-        db.notes();
+        db.getNotes();
     });
 });

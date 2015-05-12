@@ -13,13 +13,13 @@ App.prototype = {
         $.each(notes, function(i, item) {
             noteHtml += '<li class="note" id="'+item['noteId']+'">'+item['content']+'</li>';
         });
-        var ul = '<ul class="notes">'+noteHtml+'</ul>';
+        var ul = '<ul class="getNotes">'+noteHtml+'</ul>';
         var pane = '<div class="pane">'+ul+'</div>';
         var frame = '<div class="frame">'+pane+'</div>';
         this.view.append(frame,'body');
     },
     loadApp: function() {
-        this.db.notes(this.loadFrame);
+        this.db.getNotes(this.loadFrame);
     }
 };
 
@@ -34,7 +34,7 @@ View.prototype = {
 var Db = Class.create();
 Db.prototype = {
     initialize: function() {},
-    notes: function(callback) {
+    getNotes: function(callback) {
         var data = {'action': 'load'};
         $.ajax({
             url: 'backend.php',
@@ -97,8 +97,8 @@ function requestJson(data, callback) {
         }
     });
 }
-function loadNotes(notes, target) {
-    $.each(notes, function(i, item) {
+function loadNotes(getNotes, target) {
+    $.each(getNotes, function(i, item) {
         loadNote(item, target);
     });
 }
@@ -109,7 +109,7 @@ function getNotes(linkedTo) {
     } else {
         var data = {'action': 'load','linkedTo': linkedTo};
     }
-    var target = '#main .notes';
+    var target = '#main .getNotes';
     $(target).empty();
     requestJson(data, loadNotes);
 }
@@ -149,7 +149,7 @@ $(document).keydown(function(e) {
         var search = $('#search');
         if (search.is(':focus')) {
             if (search.not(':empty')) {
-                if ($('#main .notes').children(':visible').length == 0) {
+                if ($('#main .getNotes').children(':visible').length == 0) {
                     console.log('do it');
                     var note = search.val();
                     var data = {'action': 'new', 'content': note};
