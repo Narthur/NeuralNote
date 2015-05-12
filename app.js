@@ -12,6 +12,11 @@ App.prototype = {
     }
 };
 
+var View = Class.create();
+View.prototype = {
+    initialize: function() {}
+};
+
 var Db = Class.create();
 Db.prototype = {
     initialize: function() {
