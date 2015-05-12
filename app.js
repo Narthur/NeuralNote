@@ -5,9 +5,15 @@
 function App() {
 }
 
-function Db() {
+var Db = Class.create();
+Db.prototype = {
+    initialize: function() {
 
-}
+    },
+    notes: function() {
+        
+    }
+};
 
 /*
 function sendDataToBackend(data) {
