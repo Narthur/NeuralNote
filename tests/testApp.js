@@ -10,6 +10,9 @@ describe('test App', function() {
         spyOn(db, 'getNotes').and.callThrough();
         view = new View();
         spyOn(view, 'append');
+        spyOn(view, 'each').and.callThrough();
+        spyOn(view, 'getCss').and.returnValue('300px');
+        spyOn(view, 'setCss');
         app = new App(db,view);
     });
 
@@ -48,5 +51,20 @@ describe('test App', function() {
     it('gets notes when processing note click', function() {
         app.processNoteClick(7);
         expect(db.getNotes).toHaveBeenCalledWith(jasmine.anything(),7);
+    });
+
+    it('registers action for each pane', function() {
+       app.loadPane(['notes']);
+        expect(view.each).toHaveBeenCalledWith('.pane',jasmine.anything());
+    });
+
+    it('gets css position for panes', function() {
+        app.shiftPane('pane');
+        expect(view.getCss).toHaveBeenCalledWith('right','pane');
+    });
+
+    it('sets css position for panes', function() {
+       app.shiftPane('pane');
+        expect(view.setCss).toHaveBeenCalledWith('right','600px','pane');
     });
 });

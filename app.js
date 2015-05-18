@@ -44,11 +44,22 @@ App.prototype = {
         }, linkedTo);
     },
     loadPane: function(notes) {
+        var that = this;
+        this.view.each('.pane',function(pane) {
+            that.shiftPane(pane);
+        });
         var pane = this.pane(notes);
         this.view.append(pane,'.frame');
     },
     processNoteClick: function(noteId) {
         this.addPane(noteId);
+    },
+    shiftPane: function(pane) {
+        var right = this.view.getCss('right',pane);
+        right = parseInt(right,10);
+        right += 300;
+        right += 'px';
+        this.view.setCss('right',right,pane);
     }
 };
 
@@ -60,6 +71,14 @@ View.prototype = {
     },
     setCss: function(property,value,target) {
         $(target).css(property,value);
+    },
+    getCss: function(property, target) {
+        return $(target).css(property);
+    },
+    each: function(target, action) {
+        $(target).each(function() {
+           action(this);
+        });
     }
 };
 
