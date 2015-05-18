@@ -19,11 +19,11 @@ App.prototype = {
         });
         return '<ul class="getNotes">' + noteHtml + '</ul>';
     },
-    pane: function (notes) {
+    pane: function(notes) {
         var ul = this.notes(notes);
         return '<div class="pane">' + ul + '</div>';
     },
-    frame: function (notes) {
+    frame: function(notes) {
         var pane = this.pane(notes);
         return '<div class="frame">' + pane + '</div>';
     },
@@ -32,7 +32,23 @@ App.prototype = {
         this.view.append(frame,'body');
     },
     loadApp: function() {
-        this.db.getNotes(this.loadFrame);
+        var that = this;
+        this.db.getNotes(function(notes) {
+            that.loadFrame(notes)
+        });
+    },
+    addPane: function(linkedTo) {
+        var that = this;
+        this.db.getNotes(function(notes) {
+            that.loadPane(notes);
+        }, linkedTo);
+    },
+    loadPane: function(notes) {
+        var pane = this.pane(notes);
+        this.view.append(pane,'.frame');
+    },
+    processNoteClick: function(noteId) {
+        this.addPane(noteId);
     }
 };
 
@@ -41,14 +57,22 @@ View.prototype = {
     initialize: function() {},
     append: function(html, target) {
         $(target).append(html);
+    },
+    setCss: function(property,value,target) {
+        $(target).css(property,value);
     }
 };
 
 var Db = Class.create();
 Db.prototype = {
     initialize: function() {},
-    getNotes: function(callback) {
-        var data = {'action': 'load'};
+    getNotes: function(callback, linkedTo) {
+        if (linkedTo === null) {
+            var data = {'action': 'load'};
+        } else {
+            var data = {'action': 'load', 'linkedTo': linkedTo};
+        }
+
         $.ajax({
             url: 'backend.php',
             type: 'post',
@@ -66,10 +90,18 @@ Db.prototype = {
     }
 };
 
-var db = new Db();
-var view = new View();
-var app = new App(db,view);
-app.loadApp();
+$(document).ready(function() {
+    var db = new Db();
+    var view = new View();
+    var app = new App(db,view);
+    app.loadApp();
+
+    $(document.body).on('click', '.note', function () {
+        var noteId = $(this).attr('id');
+       app.processNoteClick(noteId);
+    });
+});
+
 
 /*
 function sendDataToBackend(data) {
@@ -181,7 +213,7 @@ function filter(element) {
     var box = $(element);
     var oldHeight = box.height();
     var txtHeight = box.scrollTop();
-    box.css('height',(oldHeight+txtHeight)+'px');
+    box.setCss('height',(oldHeight+txtHeight)+'px');
 
     var value = box.val();
     box.parents('.pane').find(".note").each(function() {

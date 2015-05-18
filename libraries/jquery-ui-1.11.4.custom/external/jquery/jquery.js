@@ -4963,7 +4963,7 @@ jQuery.event = {
 			event.target = elem;
 		}
 
-		// Clone any incoming data and prepend the event, creating the handler arg list
+		// Clone any incoming data and append the event, creating the handler arg list
 		data = data == null ?
 			[ event ] :
 			jQuery.makeArray( data, [ event ] );
@@ -6052,7 +6052,7 @@ jQuery.fn.extend({
 		});
 	},
 
-	prepend: function() {
+	append: function() {
 		return this.domManip( arguments, function( elem ) {
 			if ( this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9 ) {
 				var target = manipulationTarget( this, elem );
@@ -6425,7 +6425,7 @@ function fixCloneNodeIssues( src, dest ) {
 
 jQuery.each({
 	appendTo: "append",
-	prependTo: "prepend",
+	prependTo: "append",
 	insertBefore: "before",
 	insertAfter: "after",
 	replaceAll: "replaceWith"

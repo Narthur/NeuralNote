@@ -37,7 +37,12 @@ textarea {
     margin-top:4%;
 }
 
+.frame {
+    position:relative;
+}
+
 .pane {
-    width:30%;
-    float:right;
+    width:300px;
+    position:absolute;
+    right:0;
 }

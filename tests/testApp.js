@@ -7,20 +7,10 @@ describe('test App', function() {
 
     beforeEach(function() {
         db = new Db();
-        spyOn(db, 'getNotes');
+        spyOn(db, 'getNotes').and.callThrough();
         view = new View();
         spyOn(view, 'append');
         app = new App(db,view);
-
-    });
-
-    it('has load app method', function () {
-        app.loadApp();
-    });
-
-    it('appends when loading frame', function() {
-        app.loadFrame([]);
-        expect(view.append).toHaveBeenCalled();
     });
 
     it('appends getNotes when loading frame', function() {
@@ -34,6 +24,29 @@ describe('test App', function() {
 
     it('gets getNotes when loading app', function() {
         app.loadApp();
-        expect(db.getNotes).toHaveBeenCalledWith(app.loadFrame);
+        expect(db.getNotes).toHaveBeenCalledWith(jasmine.anything());
+    });
+
+    it('specifies linkedTo note when getting notes', function() {
+       app.addPane(7);
+        expect(db.getNotes).toHaveBeenCalledWith(jasmine.anything(),7);
+    });
+
+    it('appends pane', function() {
+       app.loadPane([{
+           'content':'note',
+           'noteId':'1'
+       }]);
+        var html = '<div class="pane"><ul class="getNotes"><li class="note" id="1">note</li></ul></div>';
+        expect(view.append).toHaveBeenCalledWith(html,'.frame');
+    });
+
+    it('has processNoteClick method', function() {
+       app.processNoteClick();
+    });
+
+    it('gets notes when processing note click', function() {
+        app.processNoteClick(7);
+        expect(db.getNotes).toHaveBeenCalledWith(jasmine.anything(),7);
     });
 });

@@ -11,4 +11,13 @@ describe('test View', function () {
         var view = new View();
         view.append('html','target');
     });
+
+    it('has setCss method', function() {
+       var view = new View();
+        view.setCss('height','300px','body');
+    });
+
+    it('has getCss method', function() {
+
+    });
 });

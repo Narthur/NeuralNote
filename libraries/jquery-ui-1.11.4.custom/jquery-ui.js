@@ -4965,7 +4965,7 @@ var sortable = $.widget("ui.sortable", $.ui.mouse, {
 			if(this.domPosition.prev) {
 				$(this.domPosition.prev).after(this.currentItem);
 			} else {
-				$(this.domPosition.parent).prepend(this.currentItem);
+				$(this.domPosition.parent).append(this.currentItem);
 			}
 		}
 
@@ -6636,7 +6636,7 @@ var menu = $.widget( "ui.menu", {
 
 				item
 					.attr( "aria-haspopup", "true" )
-					.prepend( submenuCarat );
+					.append( submenuCarat );
 				menu.attr( "aria-labelledby", item.attr( "id" ) );
 			});
 
@@ -7905,7 +7905,7 @@ $.widget( "ui.button", {
 			}
 
 			if ( icons.primary ) {
-				buttonElement.prepend( "<span class='ui-button-icon-primary ui-icon " + icons.primary + "'></span>" );
+				buttonElement.append( "<span class='ui-button-icon-primary ui-icon " + icons.primary + "'></span>" );
 			}
 
 			if ( icons.secondary ) {
